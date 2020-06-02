@@ -1,0 +1,25 @@
+---
+app-id: io.github.sylvainhalle.textidote
+runtime: org.freedesktop.Platform
+runtime-version: '19.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk11
+command: "/app/bin/entrypoint.sh"
+modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - "/usr/lib/sdk/openjdk11/install.sh"
+  - name: textidote
+    sources:
+      - type: file
+        url: "https://github.com/sylvainhalle/textidote/releases/download/v0.8.1/textidote.jar"
+        sha256: 3e1c66def372d2a0969236a215ba5fd1f0753a17921775b4de23cd4a13aa6b20
+      - type: file
+        path: entrypoint.sh
+    buildsystem: simple
+    build-commands:
+      - install -D entrypoint.sh /app/bin/entrypoint.sh
+      - mkdir -p /app/lib/
+      - install -D textidote.jar /app/lib/textidote.jar

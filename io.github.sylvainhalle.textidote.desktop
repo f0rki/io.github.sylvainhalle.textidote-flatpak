@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=TeXtidote (View Report)
+Comment=Check TeX(t) with TeXtidote
+Exec=io.github.sylvainhalle.textidote view-report %F
+Icon=io.github.sylvainhalle.textidote
+Terminal=false
+StartupNotify=false

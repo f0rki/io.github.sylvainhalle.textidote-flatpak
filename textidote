@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -x
+network=""
+if [[ "$1" = "download-ngram" ]]; then
+  network="--share=network"
+fi
+
+exec flatpak run \
+    $network \
+    --filesystem="$PWD" \
+    io.github.sylvainhalle.textidote \
+    $@
