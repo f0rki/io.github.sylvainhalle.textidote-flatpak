@@ -59,5 +59,5 @@ fi
 
 exec $JAVA \
     -jar /app/lib/textidote.jar \
-    --languagemodel "$XDG_DATA_HOME/languagemodel/" \
     $@
+    #--languagemodel "$XDG_DATA_HOME/languagemodel/" \

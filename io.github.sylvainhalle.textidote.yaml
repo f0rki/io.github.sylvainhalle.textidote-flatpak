@@ -4,22 +4,63 @@ runtime: org.freedesktop.Platform
 runtime-version: '19.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.openjdk11
+  - org.freedesktop.Sdk.Extension.openjdk
 command: "/app/bin/entrypoint.sh"
+finish-args:
+  - "--share=network"
 modules:
   - name: openjdk
     buildsystem: simple
     build-commands:
-      - "/usr/lib/sdk/openjdk11/install.sh"
+      - "/usr/lib/sdk/openjdk/install.sh"
   - name: textidote
     sources:
-      - type: file
-        url: "https://github.com/sylvainhalle/textidote/releases/download/v0.8.1/textidote.jar"
-        sha256: 3e1c66def372d2a0969236a215ba5fd1f0753a17921775b4de23cd4a13aa6b20
+      - type: archive
+        url: https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.8-bin.tar.xz
+        sha512: b03be67dbda9b45a7838c304db7e6750e4907c6eef51a8de30d929f7e5b0da61b8a82fde2b590a0842acffc0f1098bc6bdfd16664a72c6c6f883990e166acdd4
+        dest: ant
+      - type: git
+        url: https://github.com/sylvainhalle/textidote.git
+        commit: 30031678356c523c767c2693839ab69b030c374c
       - type: file
         path: entrypoint.sh
+      - type: archive
+        url: http://sylvainhalle.github.io/AntRun/dependencies/ant-contrib-1.0b3-bin.zip
+        sha256: 4d93e07ae6479049bb28071b069b7107322adaee5b70016674a0bffd4aac47f9
+        dest: lib
+      - type: file
+        url: http://sylvainhalle.github.io/AntRun/dependencies/xmltask.jar
+        sha256: 5984fec6928d12dba99f1a79c0f1c0c1e80fc71a01b2c94283a3857e42c210fd
+        dest: lib
+      - type: archive
+        url: https://github.com/sylvainhalle/Bullwinkle/releases/download/v1.4.3/bullwinkle-1.4.3.zip 
+        dest: Source/Core/dep/
+        sha256: c2cebcb3c14fd0a0d53f592c8fb30dbacf4e057fb794c45e8944ba9868493b4d
+      - type: archive
+        url: https://github.com/liflab/json-lif/releases/download/v1.6.3/json-lif-1.6.3.zip
+        dest: Source/Core/dep/
+        sha256: f346f9b5ee3a43ce4a201b40be3b87fe40179f8aa98228dee77149a7e992e16f
+      - type: file
+        url: https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar
+        dest: lib/
+        sha256: 59721f0805e223d84b90677887d9ff567dc534d7c502ca903c0c2b17f05c116a
+      - type: file
+        url: https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+        dest: lib/
+        sha256: 66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9
+      - type: file
+        url: https://github.com/sylvainhalle/languagetool/releases/download/v4.6a-standalone/languagetool-bundle-4.6a.jar
+        dest: Source/Core/dep/
+        sha256: 29102aa95e21a62f511a62750e867e044f6c77ff0e13bc00bdf89541e166b963
+      #- type: file
+      #  url: https://repo1.maven.org/maven2/org/apache/lucene/lucene-backward-codecs/5.5.5/lucene-backward-codecs-5.5.5.jar
+      #  sha256: b62e089f505bc72dd8abb0ad55040604cdd92306e14871d7febcbf947dd9c6e5
+      #  dest: Source/Core/dep/
     buildsystem: simple
     build-commands:
       - install -D entrypoint.sh /app/bin/entrypoint.sh
       - mkdir -p /app/lib/
+      - sed -i 's/1.6/1.7/g' build.xml
+      - "env PATH=$PATH:/app/jre/bin/:/usr/lib/sdk/openjdk/bin/:/usr/bin/ JAVA_HOME=/app/jre ./ant/bin/ant"
+      - ls -al Source/Core/dep/
       - install -D textidote.jar /app/lib/textidote.jar
