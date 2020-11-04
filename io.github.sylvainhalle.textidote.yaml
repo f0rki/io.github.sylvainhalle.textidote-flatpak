@@ -1,7 +1,7 @@
 ---
 app-id: io.github.sylvainhalle.textidote
 runtime: org.freedesktop.Platform
-runtime-version: '19.08'
+runtime-version: '20.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk
@@ -21,7 +21,7 @@ modules:
         dest: ant
       - type: git
         url: https://github.com/sylvainhalle/textidote.git
-        commit: 30031678356c523c767c2693839ab69b030c374c
+        commit: 9cd25a648074314f9b8cef91c47972913aed0a26
       - type: file
         path: entrypoint.sh
       - type: archive
